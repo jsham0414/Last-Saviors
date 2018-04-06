@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d3ac747a61bfae548979a3dffc1d1ff8
+timeCreated: 1522740767
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_PrefabJobChange: {fileID: 1368149959926536, guid: ecf21805c182e084ea33f4a26fad7035,
+      type: 2}
+  - m_inputField: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

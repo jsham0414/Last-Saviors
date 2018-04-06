@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c4c3c3e440731ea4faa3fe43ed3c1dad
+timeCreated: 1522814669
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PlayerPrefeb: {fileID: 1669783301985098, guid: cb910986337b3a34e83e44842edcb82b,
+      type: 2}
+  - NetPlayerPrefeb: {fileID: 1667850488205968, guid: 37099cb34f7ce9a4cafc319eeea70ac0,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
