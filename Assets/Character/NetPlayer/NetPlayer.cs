@@ -5,9 +5,12 @@ using UnityEngine;
 public class NetPlayer : Character {
     private Animator animator;
     private float lastDX = 0, lastDY = -1;
+    public Vector3 MoveQueue { get; set; }
+    public bool EndMove { get; set; }
     private Rigidbody2D rb;
 
     void Start() {
+        EndMove = false;
         animator = gameObject.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -32,7 +35,15 @@ public class NetPlayer : Character {
     }
 
     void FixedUpdate() {
-        DeadReconing();
+        if (MoveQueue == null)
+            DeadReconing();
+        else {
+            Vector3 DirVec = new Vector3();
+            DirVec = MoveQueue - transform.position;
+
+            transform.Translate(DirVec.normalized * Info.Speed * Time.deltaTime);
+        }
+
     }
 
     void Animation() {

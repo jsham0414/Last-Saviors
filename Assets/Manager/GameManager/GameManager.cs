@@ -42,18 +42,11 @@ public class GameManager : MonoBehaviour {
         Player p;
         NetPlayer np;
         foreach (GameObject obj in NetPlayers) {
-            p = obj.GetComponent<Player>();
-            if (p == null) {
-                np = obj.GetComponent<NetPlayer>();
-                if (np.Info.No == no) {
-                    np.transform.position = new Vector3(x, y, 0);
-                    np.dPosition = new Vector3(x, y, 0);
-                    np.deadX = dx;
-                    np.deadY = dy;
-                    np.deadTime = Time.time;
-                    return;
-                }
-            } else {
+            if (obj == null)
+                continue;
+            switch (obj.name) {
+            case "Player(Clone)":
+                p = obj.GetComponent<Player>();
                 if (p.Info.No == no) {
                     p.transform.position = new Vector3(x, y, 0);
                     p.dPosition = new Vector3(x, y, 0);
@@ -62,6 +55,19 @@ public class GameManager : MonoBehaviour {
                     p.deadTime = Time.time;
                     return;
                 }
+                break;
+            case "NetPlayer(Clone)":
+                np = obj.GetComponent<NetPlayer>();
+                if (np.Info.No == no) {
+                    np.EndMove = false;
+                    np.transform.position = new Vector3(x, y, 0);
+                    np.dPosition = new Vector3(x, y, 0);
+                    np.deadX = dx;
+                    np.deadY = dy;
+                    np.deadTime = Time.time;
+                    return;
+                }
+                break;
             }
         }
     }
@@ -70,18 +76,25 @@ public class GameManager : MonoBehaviour {
         Player p;
         NetPlayer np;
         foreach (GameObject obj in NetPlayers) {
-            p = obj.GetComponent<Player>();
-            if (p == null) {
-                np = obj.GetComponent<NetPlayer>();
-                if (np.Info.No == no) {
-                    np.transform.position = new Vector3(x, y, 0);
-                    return;
-                }
-            } else {
+            if (obj == null)
+                continue;
+            switch (obj.name) {
+            case "Player(Clone)":
+                p = obj.GetComponent<Player>();
                 if (p.Info.No == no) {
                     p.transform.position = new Vector3(x, y, 0);
                     return;
                 }
+                break;
+            case "NetPlayer(Clone)":
+                np = obj.GetComponent<NetPlayer>();
+                if (np.Info.No == no) {
+                    np.EndMove = true;
+                    np.MoveQueue = new Vector3(x, y, 0);
+                    np.transform.position = new Vector3(x, y, 0);
+                    return;
+                }
+                break;
             }
         }
     }
