@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour {
                 if (np.Info.No == no) {
                     np.EndMove = true;
                     np.MoveQueue = new Vector3(x, y, 0);
-                    np.transform.position = new Vector3(x, y, 0);
+                    //np.transform.position = new Vector3(x, y, 0);
                     return;
                 }
                 break;
@@ -132,10 +132,10 @@ public class GameManager : MonoBehaviour {
         foreach(Text t in obj.GetComponentsInChildren<Text>()) {
             switch (t.name) {
             case "Title":
-                t.text = title.ToString();
+                t.text = title.Replace("\"", "");
                 break;
             case "Message":
-                t.text = text.ToString();
+                t.text = text.Replace("\"", "");
                 break;
             }
         }

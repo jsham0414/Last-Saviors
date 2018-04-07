@@ -35,11 +35,16 @@ public class NetPlayer : Character {
     }
 
     void FixedUpdate() {
-        if (MoveQueue == null)
+        if (EndMove == false)
             DeadReconing();
         else {
             Vector3 DirVec = new Vector3();
             DirVec = MoveQueue - transform.position;
+
+            if (DirVec == Vector3.zero)
+                return;
+
+            print("!");
 
             transform.Translate(DirVec.normalized * Info.Speed * Time.deltaTime);
         }
