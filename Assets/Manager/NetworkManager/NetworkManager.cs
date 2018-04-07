@@ -97,7 +97,8 @@ public class NetworkManager : MonoBehaviour {
                 sock.Close();
             }
         }
-        StopCoroutine(PasreEnumerator);
+
+        if (isRunning == true) StopCoroutine(PasreEnumerator);
     }
 
     void Start() {
@@ -111,7 +112,6 @@ public class NetworkManager : MonoBehaviour {
     }
 
     IEnumerator Parse() {
-        //lock (receiveBuffer) {
         while (true) {
             if (receiveBuffer.Length > 0) {
                 int sIndex = -1, eIndex = -1;
@@ -132,7 +132,6 @@ public class NetworkManager : MonoBehaviour {
             }
             yield return null;
         }
-        //}
     }
 
     void OnApplicationQuit() {
@@ -161,13 +160,13 @@ public class NetworkManager : MonoBehaviour {
                 GameManager.Instance.PlayerData.No = p["no"];
                 break;
             case 1:
-                print("아이디나 비밀번호가 다릅니다.");
+                GameManager.Instance.CreateDialog("로그인 실패", "아이디나 비밀번호가 다릅니다.");
                 break;
             case 2:
-                print("서버 자체 오류입니다.");
+                GameManager.Instance.CreateDialog("로그인 실패", "서버 자체 오류입니다.");
                 break;
             case 3:
-                print("이미 접속중인 계정입니다.");
+                GameManager.Instance.CreateDialog("로그인 실패", "이미 접속중인 계정입니다.");
                 break;
             }
             break;
@@ -183,6 +182,9 @@ public class NetworkManager : MonoBehaviour {
             break;
         case STC.START_GAME:
             SceneManager.LoadScene("Stage");
+            break;
+        case STC.END_GAME:
+            SceneManager.LoadScene("Room");
             break;
         case STC.CREATE_CHARACTER:
             switch (p["type"].AsInt) {
@@ -220,7 +222,7 @@ public class NetworkManager : MonoBehaviour {
             case Database.CharacterType.USER:
                 if (GameManager.Instance.PlayerData.No == p["no"]) {
                     player = GameManager.Instance.PlayerData;
-                    if (p[string.Format("{0}", Database.Status.IMAGE)] != null) player.Image = p[string.Format("{0}", Database.Status.IMAGE)].ToString();
+                    if (p[Database.Status.IMAGE.ToString()] != null) player.Image = p[string.Format("{0}", Database.Status.IMAGE)].ToString();
                     if (p[string.Format("{0}", Database.Status.LEVEL)] != null) player.Level = p[string.Format("{0}", Database.Status.LEVEL)].AsInt;
                     if (p[string.Format("{0}", Database.Status.HP)] != null) player.Hp = p[string.Format("{0}", Database.Status.HP)].AsInt;
                     if (p[string.Format("{0}", Database.Status.MAX_HP)] != null) player.MaxHp = p[string.Format("{0}", Database.Status.MAX_HP)].AsInt;
@@ -244,9 +246,12 @@ public class NetworkManager : MonoBehaviour {
             break;
         case STC.LOAD_ROOMLIST:
             DataManager.Instance.RoomData.Clear();
+            DataManager.Instance.InitRoomTeam();
+            LobbyManager.Instance.InitRoomText();
             int length = p["length"].AsInt;
             for (int i = 0; i < length; i++) {
                 if (p["state"].AsInt == 0) {
+                    print(p["room" + i + "Name"].ToString());
                     DataManager.Instance.RoomData.Add(new Room(
                         p["room" + i + "Index"],
                         p["room" + i + "Name"].ToString(),
@@ -375,10 +380,16 @@ public class NetworkManager : MonoBehaviour {
             break;
         case STC.MOVE_SCENE:
             switch (p["type"].AsInt) {
+            case 5:
+                SceneManager.LoadScene("Lobby");
+                break;
             case 6:
                 SceneManager.LoadScene("Room");
                 break;
             }
+            break;
+        case STC.OPEN_DIALOG:
+            GameManager.Instance.CreateDialog(p["title"].ToString(), p["content"].ToString());
             break;
         }
     }

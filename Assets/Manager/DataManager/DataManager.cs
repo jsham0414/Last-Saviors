@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour {
 
     public List<Room> RoomData { get { return m_RoomData; } }
     public List<RoomTeam> RoomTeam(int i) { return m_RoomTeam[i]; }
-    public Room NowRoom { get { return m_NowRoom; } set { m_NowRoom = NowRoom; } }
+    public Room NowRoom { get { return m_NowRoom; } set { m_NowRoom = value; } }
 
     public static DataManager Instance { get; private set; }
 

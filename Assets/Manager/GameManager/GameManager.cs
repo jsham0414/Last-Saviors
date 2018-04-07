@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject PlayerPrefeb = null;
     [SerializeField] private GameObject NetPlayerPrefeb = null;
+    [SerializeField] private GameObject DialogPrefab = null;
+
     public CharacterInfo PlayerData { get; set; }
     public Player MainPlayer { get; set; }
     public List<GameObject> NetPlayers { get; set; } 
@@ -109,6 +112,20 @@ public class GameManager : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public void CreateDialog(string title, string text) {
+        GameObject obj = Instantiate(DialogPrefab, GameObject.Find("Canvas").transform);
+        foreach(Text t in obj.GetComponentsInChildren<Text>()) {
+            switch (t.name) {
+            case "Title":
+                t.text = title.ToString();
+                break;
+            case "Message":
+                t.text = text.ToString();
+                break;
+            }
+        }
     }
 
     public void SetCharacterInfo(Character c1, CharacterInfo c2) {

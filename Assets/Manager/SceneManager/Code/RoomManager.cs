@@ -122,5 +122,12 @@ public class RoomManager : MonoBehaviour {
             m_RedImage[i].color = new Color(255, 255, 255, 255);
             i++;
         }
+        
+    }
+
+    public void ExitRoom() {
+        JSONObject p = new JSONObject();
+        p["header"] = CTS.EXIT_ROOM;
+        NetworkManager.Instance.SendPacket(p);
     }
 }

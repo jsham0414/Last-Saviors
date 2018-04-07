@@ -44,12 +44,7 @@ public class LobbyManager : MonoBehaviour {
     }
 
     void Start() {
-        for (int i = 0; i < m_pageTextSize; i++) {
-            m_indexText[i].text = string.Empty;
-            m_titleText[i].text = string.Empty;
-            m_stateText[i].text = string.Empty;
-            m_userNumText[i].text = string.Empty;
-        }
+        InitRoomText();
         for (int i = 0; i < m_consoleText.Length; i++) {
             m_consoleText[i].text = string.Empty;
         }
@@ -62,6 +57,15 @@ public class LobbyManager : MonoBehaviour {
         WaitLoadRoomList();
         RenderRoomList();
         RenderChatLog();
+    }
+
+    public void InitRoomText() {
+        for (int i = 0; i < m_pageTextSize; i++) {
+            m_indexText[i].text = string.Empty;
+            m_titleText[i].text = string.Empty;
+            m_stateText[i].text = string.Empty;
+            m_userNumText[i].text = string.Empty;
+        }
     }
 
     public void CreateRoom() {
